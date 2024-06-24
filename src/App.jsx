@@ -1,11 +1,12 @@
 import './App.css';
+import Timer from './Timer.jsx';
 import { useState } from 'react';
 
 function App() {
-  const [breakTime, setBreakTime] = useState(3000);   // 5 minutes in seconds
-  const [sessionTime, setSessionTime] = useState(15000);   // 25 minutes in seconds
+  const [breakTime, setBreakTime] = useState(300);   // 5 minutes in seconds
+  const [sessionTime, setSessionTime] = useState(1500);   // 25 minutes in seconds
   const [startStop, setStartStop] = useState('START');
-  const [timeLeft, setTimeLeft] = useState(sessionTime);
+  
 
   function decrementBreakTime() {
     setBreakTime(t => t > 0 ? t - 1 : 0);
@@ -53,9 +54,10 @@ function App() {
             </button>
           </div>
         </div>
+        <Timer />
         <div>
           <p id='timer-label'>Session</p>
-          <span id='time-left'>{timeLeft}</span>
+          {/* <span id='time-left'>{timeLeft}</span> */}
         </div>
         <div id='control-buttons'>
           <button id='start-stop' onClick={handleStartStop}>{startStop}</button>
