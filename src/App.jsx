@@ -3,25 +3,29 @@ import Timer from './Timer.jsx';
 import { useState } from 'react';
 
 function App() {
-  const [breakTime, setBreakTime] = useState(300);   // 5 minutes in seconds
+  const [breakTimeInSec, setBreakTimeInSec] = useState(300);   // 5 minutes in seconds
   const [sessionTime, setSessionTime] = useState(1500);   // 25 minutes in seconds
+  const [timerVal, setTimerVal] = useState(sessionTime);
   const [startStop, setStartStop] = useState('START');
   
+  function timeInMin(timeInSec) {
+    return Math.ceil(timeInSec / 60);
+  }
 
   function decrementBreakTime() {
-    setBreakTime(t => t > 0 ? t - 1 : 0);
+    setBreakTimeInSec(t => t > 0 ? t - 60 : 0);
   }
 
   function incrementBreakTime() {
-    setBreakTime(t => t < 60 ? t + 1 : 60);
+    setBreakTimeInSec(t => t < 3600 ? t + 60 : 3600);
   }
 
   function decrementSessionTime() {
-    setSessionTime(t => t > 0 ? t - 1 : 0);
+    setSessionTime(t => t > 0 ? t - 60 : 0);
   }
 
   function incrementSessionTime() {
-    setSessionTime(t => t < 60 ? t + 1 : 60);
+    setSessionTime(t => t < 3600 ? t + 60 : 3600);
   }
 
   function handleStartStop() {
@@ -35,26 +39,26 @@ function App() {
         <div>
           <div id='break-label'>
             Break length
-            <button id='break-decrement' onClick={decrementBreakTime}>-
-
+            <button id='break-decrement' onClick={decrementBreakTime}>
+              -
             </button>
-            <span id='break-length'>{breakTime}</span>
-            <button id='break-increment' onClick={incrementBreakTime}>+
-
+            <span id='break-length'>{timeInMin(breakTimeInSec)}</span>
+            <button id='break-increment' onClick={incrementBreakTime}>
+              +
             </button>
           </div>
           <div id='session-label'>
             Session length
-            <button id='session-decrement' onClick={decrementSessionTime}>-
-
+            <button id='session-decrement' onClick={decrementSessionTime}>
+              -
             </button>
-            <span id='session-length'>{sessionTime}</span>
-            <button id='session-increment' onClick={incrementSessionTime}>+
-
+            <span id='session-length'>{timeInMin(sessionTime)}</span>
+            <button id='session-increment' onClick={incrementSessionTime}>
+              +
             </button>
           </div>
         </div>
-        <Timer />
+        <Timer timerVal={timerVal}/>
         <div>
           <p id='timer-label'>Session</p>
           {/* <span id='time-left'>{timeLeft}</span> */}
