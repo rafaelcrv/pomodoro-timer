@@ -22,10 +22,12 @@ function App() {
 
   function decrementSessionTime() {
     setSessionTime(t => t > 0 ? t - 60 : 0);
+    setTimerVal(t => t > 0 ? t - 60 : 0);
   }
 
   function incrementSessionTime() {
     setSessionTime(t => t < 3600 ? t + 60 : 3600);
+    setTimerVal(t => t < 3600 ? t + 60 : 3600);
   }
 
   function handleStartStop() {
