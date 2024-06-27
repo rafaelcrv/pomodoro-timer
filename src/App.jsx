@@ -35,7 +35,7 @@ function App() {
   };
 
   function handleReset() {
-    setSessionTime((t) => t = DEFAULT_SESSION_TIME); // incorrect: resets to the default values, not to the user-changed values
+    setSessionTime((t) => t = DEFAULT_SESSION_TIME); // TODO: incorrect: resets to the default values, not to the user-changed values
     setBreakTime((t) => t = DEFAULT_BREAK_TIME);
     setTimerVal((t) => t = DEFAULT_SESSION_TIME);
     setIsTimerRunning(!isTimerRunning);
