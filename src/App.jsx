@@ -9,45 +9,35 @@ const DEFAULT_BREAK_TIME = 300;    // 5 minutes in seconds 300
 
 function App() {
   const [sessionTime, setSessionTime] = useState(60);
-  const [breakTimeInSec, setBreakTimeInSec] = useState(60);
+  const [breakTime, setBreakTime] = useState(60);
   const [timerVal, setTimerVal] = useState(sessionTime);
-  const [startStop, setStartStop] = useState('START');
+  const [isTimerRunning, setIsTimerRunning] = useState(false);
   const [isSessionTime, setIsSessionTime] = useState(true);   // 1 for session, 0 for break
 
   useEffect(function() {
     if (timerVal > 0) {
-      if (startStop === 'STOP') {
+      if (isTimerRunning) {
         const intervalId = setInterval(() => {
           setTimerVal((t) => t - 60); // change this to t - 1 (faster debugging)
         }, 1000);
         return () => clearInterval(intervalId);
       }
     } else {
-      setTimerVal((t) => {
-        console.log('breakTimeInSec', breakTimeInSec);
-        console.log('sessionTime', sessionTime);
-        if (isSessionTime) {
-          return breakTimeInSec;
-        } else {
-          return sessionTime;
-        }
-      });
-      console.log('timerVal', timerVal);
-      console.log('isSessionTime', isSessionTime);
-      setIsSessionTime((val) => !val);
+      setTimerVal(isSessionTime ? breakTime : sessionTime);
+      setIsSessionTime(!isSessionTime);
     }
-  }, [timerVal, startStop, isSessionTime, breakTimeInSec, sessionTime]);
+  }, [timerVal, isTimerRunning, isSessionTime, breakTime, sessionTime]);
   
   function timeInMin(timeInSec) {
     return Math.ceil(timeInSec / 60);
   };
 
   function decrementBreakTime() {
-    setBreakTimeInSec(t => t > 0 ? t - 60 : 0);
+    setBreakTime(t => t > 0 ? t - 60 : 0);
   };
 
   function incrementBreakTime() {
-    setBreakTimeInSec(t => t < 3600 ? t + 60 : 3600);
+    setBreakTime(t => t < 3600 ? t + 60 : 3600);
   };
 
   function decrementSessionTime() {
@@ -60,14 +50,15 @@ function App() {
     setTimerVal(t => t < 3600 ? t + 60 : 3600);
   };
 
-  function handleStartStop() {
-    setStartStop(val => val === 'START' ? 'STOP' : 'START');
+  function handleIsTimerRunning() {
+    setIsTimerRunning(!isTimerRunning);
   };
 
   function handleReset() {
-    setSessionTime((t) => t = DEFAULT_SESSION_TIME);
-    setBreakTimeInSec((t) => t = DEFAULT_BREAK_TIME);
-    setStartStop((val) => val = 'START');
+    setSessionTime((t) => t = DEFAULT_SESSION_TIME); // incorrect: resets to the default values, not to the user-changed values
+    setBreakTime((t) => t = DEFAULT_BREAK_TIME);
+    setTimerVal((t) => t = DEFAULT_SESSION_TIME);
+    setIsTimerRunning((val) => val = 'START');
   };
 
   return (
@@ -80,7 +71,7 @@ function App() {
             <button id='break-decrement' onClick={decrementBreakTime}>
               -
             </button>
-            <span id='break-length'>{timeInMin(breakTimeInSec)}</span>
+            <span id='break-length'>{timeInMin(breakTime)}</span>
             <button id='break-increment' onClick={incrementBreakTime}>
               +
             </button>
@@ -98,7 +89,7 @@ function App() {
         </div>
         <Timer timerVal={timerVal}/>
         <div id='control-buttons'>
-          <button id='start-stop' onClick={handleStartStop}>{startStop}</button>
+          <button id='start-stop' onClick={handleIsTimerRunning}>{isTimerRunning ? 'PAUSE' : 'START'}</button>
           <button id='reset' onClick={handleReset}>
             <FontAwesomeIcon icon={faRotateRight} />
           </button>
