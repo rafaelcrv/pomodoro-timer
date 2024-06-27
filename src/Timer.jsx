@@ -12,6 +12,6 @@ function Timer({timerVal, isSessionTime}) {
           <span id='time-left'>{formatTime(timerVal)}</span>
         </div>
     );
-}
+};
 
 export default Timer;
