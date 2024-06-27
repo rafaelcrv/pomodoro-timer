@@ -8,11 +8,11 @@ const DEFAULT_SESSION_TIME = 360;  // 25 minutes in seconds 1500
 const DEFAULT_BREAK_TIME = 300;    // 5 minutes in seconds 300
 
 function App() {
-  const [sessionTime, setSessionTime] = useState(60);
-  const [breakTime, setBreakTime] = useState(60);
+  const [sessionTime, setSessionTime] = useState(DEFAULT_SESSION_TIME);
+  const [breakTime, setBreakTime] = useState(DEFAULT_BREAK_TIME);
   const [timerVal, setTimerVal] = useState(sessionTime);
   const [isTimerRunning, setIsTimerRunning] = useState(false);
-  const [isSessionTime, setIsSessionTime] = useState(true);   // 1 for session, 0 for break
+  const [isSessionTime, setIsSessionTime] = useState(true);
 
   useEffect(function() {
     if (timerVal > 0) {
@@ -25,6 +25,7 @@ function App() {
     } else {
       setTimerVal(isSessionTime ? breakTime : sessionTime);
       setIsSessionTime(!isSessionTime);
+      playBuzzer();
     }
   }, [timerVal, isTimerRunning, isSessionTime, breakTime, sessionTime]);
   
@@ -61,6 +62,11 @@ function App() {
     setIsTimerRunning((val) => val = 'START');
   };
 
+  function playBuzzer() {
+    const audio = new Audio('../buzzer.mp3');
+    audio.play();
+}
+
   return (
     <div className='App' id='main'>
       <div className='App-header'>
@@ -87,7 +93,7 @@ function App() {
             </button>
           </div>
         </div>
-        <Timer timerVal={timerVal}/>
+        <Timer timerVal={timerVal} isSessionTime={isSessionTime}/>
         <div id='control-buttons'>
           <button id='start-stop' onClick={handleIsTimerRunning}>{isTimerRunning ? 'PAUSE' : 'START'}</button>
           <button id='reset' onClick={handleReset}>

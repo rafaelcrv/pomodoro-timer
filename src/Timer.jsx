@@ -1,4 +1,4 @@
-function Timer({timerVal}) {
+function Timer({timerVal, isSessionTime}) {
     function formatTime(timerVal) {
         let mm = String(Math.floor(timerVal / 60));
         let ss = String(timerVal % 60);
@@ -8,7 +8,7 @@ function Timer({timerVal}) {
     };
     return (
         <div>
-          <p id='timer-label'>Session</p>
+          <p id='timer-label'>{isSessionTime ? `Time to focus!` : 'Time for a break'}</p>
           <span id='time-left'>{formatTime(timerVal)}</span>
         </div>
     );
