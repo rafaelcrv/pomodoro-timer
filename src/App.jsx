@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRotateRight } from '@fortawesome/free-solid-svg-icons';
 import TimerParameters from './TimerParameters.jsx';
 
-const DEFAULT_SESSION_TIME = 360;  // 25 minutes in seconds 1500
+const DEFAULT_SESSION_TIME = 1500;  // 25 minutes in seconds 1500
 const DEFAULT_BREAK_TIME = 300;    // 5 minutes in seconds 300
 
 function App() {
