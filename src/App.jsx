@@ -7,6 +7,10 @@ import TimerParameters from './TimerParameters.jsx';
 
 const DEFAULT_SESSION_TIME = 360;  // 25 minutes in seconds 1500
 const DEFAULT_BREAK_TIME = 300;    // 5 minutes in seconds 300
+const userInputs = {
+  sessionTime: DEFAULT_SESSION_TIME,
+  breakTime: DEFAULT_BREAK_TIME
+}
 
 function App() {
   const [sessionTime, setSessionTime] = useState(DEFAULT_SESSION_TIME);
@@ -19,7 +23,7 @@ function App() {
     if (timerVal > 0) {
       if (isTimerRunning) {
         const intervalId = setInterval(() => {
-          setTimerVal((t) => t - 1); // change this to t - 1 (faster debugging)
+          setTimerVal((t) => t - 30); // change this to t - 1 (faster debugging)
         }, 1000);
         return () => clearInterval(intervalId);
       }
@@ -32,14 +36,14 @@ function App() {
   
   function handleIsTimerRunning() {
     setIsTimerRunning(!isTimerRunning);
-  };
+  }
 
   function handleReset() {
-    setSessionTime((t) => t = DEFAULT_SESSION_TIME); // TODO: incorrect: resets to the default values, not to the user-changed values
-    setBreakTime((t) => t = DEFAULT_BREAK_TIME);
-    setTimerVal((t) => t = DEFAULT_SESSION_TIME);
-    setIsTimerRunning(!isTimerRunning);
-  };
+    setSessionTime(Math.ceil(userInputs.sessionTime)); // TODO: incorrect: resets to the default values, not to the user-changed values
+    setBreakTime(Math.ceil(userInputs.breakTime));
+    setTimerVal(Math.ceil(userInputs.sessionTime));
+    setIsTimerRunning(false);
+  }
 
   function playBuzzer() {
     const audio = new Audio('../buzzer.mp3');
@@ -56,6 +60,8 @@ function App() {
           sessionTime={sessionTime}
           setSessionTime={setSessionTime}
           setTimerVal={setTimerVal}
+          userInputs={userInputs}
+          isTimerRunning={isTimerRunning}
         />
         <Timer timerVal={timerVal} isSessionTime={isSessionTime}/>
         <div id='control-buttons'>
