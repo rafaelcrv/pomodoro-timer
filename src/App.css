@@ -12,3 +12,17 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
+.footer {
+  justify-content: end;
+}
+
+a {
+  color: white; /* Change text color */
+  text-decoration: none; /* Add underline */
+}
+
+a:hover {
+  color: gray; /* Change color on hover */
+  text-decoration: none; /* Remove underline on hover */
+}
