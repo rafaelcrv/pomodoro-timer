@@ -67,6 +67,10 @@ function App() {
           </button>
         </div>
         <audio id="beep" ref={audioRef} src="../buzzer.mp3" />
+      <footer className="footer">
+        <p>Coded by <a href="https://www.linkedin.com/in/rafaelcarvalho11/">Rafael Carvalho</a></p>
+        <p>Designed by <a href="https://www.linkedin.com/in/pedroid/">Pedro Pereira</a></p>
+        </footer>
       </div>
     </div>
   );
