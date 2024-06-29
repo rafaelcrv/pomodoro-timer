@@ -1,6 +1,6 @@
 import './App.css';
 import Timer from './Timer.jsx';
-import { useState, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRotateRight } from '@fortawesome/free-solid-svg-icons';
 import TimerParameters from './TimerParameters.jsx';
@@ -18,6 +18,7 @@ function App() {
   const [timerVal, setTimerVal] = useState(sessionTime);
   const [isTimerRunning, setIsTimerRunning] = useState(false);
   const [isSessionTime, setIsSessionTime] = useState(true);
+  const audioRef = useRef(null);
 
   useEffect(function() {
     if (timerVal > 0) {
@@ -30,7 +31,7 @@ function App() {
     } else {
       setTimerVal(isSessionTime ? breakTime : sessionTime);
       setIsSessionTime(!isSessionTime);
-      playBuzzer();
+      if(audioRef.current) audioRef.current.play();
     }
   }, [timerVal, isTimerRunning, isSessionTime, breakTime, sessionTime]);
   
@@ -39,16 +40,11 @@ function App() {
   }
 
   function handleReset() {
-    setSessionTime(Math.ceil(userInputs.sessionTime)); // TODO: incorrect: resets to the default values, not to the user-changed values
-    setBreakTime(Math.ceil(userInputs.breakTime));
-    setTimerVal(Math.ceil(userInputs.sessionTime));
+    setSessionTime(sessionTime);
+    setBreakTime(breakTime);
+    setTimerVal(sessionTime);
     setIsTimerRunning(false);
   }
-
-  function playBuzzer() {
-    const audio = new Audio('../buzzer.mp3');
-    audio.play();
-}
 
   return (
     <div className='App' id='main'>
@@ -70,7 +66,7 @@ function App() {
             <FontAwesomeIcon icon={faRotateRight} />
           </button>
         </div>
-
+        <audio id="beep" ref={audioRef} src="../buzzer.mp3" />
       </div>
     </div>
   );
