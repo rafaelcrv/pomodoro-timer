@@ -24,7 +24,7 @@ function App() {
     if (timerVal > 0) {
       if (isTimerRunning) {
         const intervalId = setInterval(() => {
-          setTimerVal((t) => t - 30); // change this to t - 1 (faster debugging)
+          setTimerVal((t) => t - 1);
         }, 1000);
         return () => clearInterval(intervalId);
       }
