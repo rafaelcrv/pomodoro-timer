@@ -6,13 +6,11 @@ function TimerParameters({ breakTime, setBreakTime, sessionTime, setSessionTime,
     
     function decrementBreakTime() {
     setBreakTime(t => t > 60 ? t - 60 : 60);
-    console.log('breakTime', breakTime);
     userInputs.breakTime = breakTime;
     }
 
     function incrementBreakTime() {
     setBreakTime(t => t < 3600 ? t + 60 : 3600);
-    console.log('breakTime', breakTime);
     userInputs.breakTime = breakTime;
     }
 

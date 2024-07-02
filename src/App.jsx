@@ -1,10 +1,10 @@
 import './App.css';
 import Timer from './Timer.jsx';
-import { useRef, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRotateRight } from '@fortawesome/free-solid-svg-icons';
 import TimerParameters from './TimerParameters.jsx';
-
+ 
 const DEFAULT_SESSION_TIME = 360;  // 25 minutes in seconds 1500
 const DEFAULT_BREAK_TIME = 300;    // 5 minutes in seconds 300
 const userInputs = {
@@ -18,7 +18,6 @@ function App() {
   const [timerVal, setTimerVal] = useState(sessionTime);
   const [isTimerRunning, setIsTimerRunning] = useState(false);
   const [isSessionTime, setIsSessionTime] = useState(true);
-  const audioRef = useRef(null);
 
   useEffect(function() {
     if (timerVal > 0) {
@@ -31,7 +30,7 @@ function App() {
     } else {
       setTimerVal(isSessionTime ? breakTime : sessionTime);
       setIsSessionTime(!isSessionTime);
-      if(audioRef.current) audioRef.current.play();
+      playBuzzer();
     }
   }, [timerVal, isTimerRunning, isSessionTime, breakTime, sessionTime]);
   
@@ -44,6 +43,11 @@ function App() {
     setBreakTime(breakTime);
     setTimerVal(sessionTime);
     setIsTimerRunning(false);
+  }
+
+  function playBuzzer() {
+    const audio = new Audio('src/sounds/buzzer.mp3');
+    audio.play();
   }
 
   return (
@@ -66,7 +70,6 @@ function App() {
             <FontAwesomeIcon icon={faRotateRight} />
           </button>
         </div>
-        <audio id="beep" ref={audioRef} src="../buzzer.mp3" />
       <footer className="footer">
         <p>Coded by <a href="https://www.linkedin.com/in/rafaelcarvalho11/">Rafael Carvalho</a></p>
         <p>Designed by <a href="https://www.linkedin.com/in/pedroid/">Pedro Pereira</a></p>
